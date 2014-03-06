@@ -25,7 +25,7 @@ limitations under the License.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>MQTT Websocket Client</title>
+    <title>Sanji Framework MQTT Showcase</title>
 
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
@@ -37,8 +37,8 @@ limitations under the License.
 
 <div id="header">
     <div>
-        <a href="http://www.hivemq.com"><img id="headerlogo" src="assets/logo.png"></a>
-        <span id="headertitle">Websockets Client Showcase</span>
+        <a href="http://www.moxa.com"><img id="headerlogo" src="assets/logo.png"></a>
+        <span id="headertitle">Sanji Framework MQTT Showcase</span>
     </div>
 </div>
 <div id="content" class="row">
@@ -63,12 +63,12 @@ limitations under the License.
                 <form class="custom">
                     <div class="large-5 columns">
                         <label>Host *</label>
-                        <input id="urlInput" type="text" value="broker.mqttdashboard.com">
+                        <input id="urlInput" type="text" value="192.168.27.133">
                     </div>
 
                     <div class="large-1 columns">
                         <label>Port *</label>
-                        <input id="portInput" type="text" value="8000"/>
+                        <input id="portInput" type="text" value="1111"/>
                     </div>
 
                     <div class="large-4 columns">
@@ -161,7 +161,7 @@ limitations under the License.
                         <div class="row">
                             <div class="large-6 columns">
                                 <label>Topic</label>
-                                <input id="publishTopic" type="text" value="testtopic/1">
+                                <input id="publishTopic" type="text" value="controller">
                             </div>
                             <div class="large-2 columns">
                                 <label for="publishQoSInput">QoS</label>
@@ -183,7 +183,15 @@ limitations under the License.
                         <div class="row">
                             <div class="large-12 columns">
                                 <label>Message</label>
-                                <textarea id="publishPayload"></textarea>
+                                <textarea id="publishPayload" style="height: 250px;"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <label>Template Payload</label>
+                                <a class="small button" id="registerButton">Register</a>
+                                <a class="small button" id="requestButton">Request</a>
+                                <a class="small button" id="responseButton">Response</a>
                             </div>
                         </div>
                     </form>
@@ -272,7 +280,7 @@ limitations under the License.
                                 <div class="row large-12 columns">
                                     <div class="large-12 columns">
                                         <label>Topic</label>
-                                        <input id="subscribeTopic" type="text" value="testtopic/#">
+                                        <input id="subscribeTopic" type="text" value="#">
                                     </div>
                                 </div>
                             </form>
@@ -306,6 +314,35 @@ limitations under the License.
 
 <script>
 
+    var registerTemplate = {
+      "id": randomString(8),
+      "method": "post",
+      "resource": "/controller/register",
+      "data": {
+        "tunnel": "TempTunnelWeb_" + randomString(8),
+        "description": "This is a model without description.",
+        "hook": [],
+        "role": "model",
+        "resources": [
+          "/network/ethernet",
+          "/network/cellular"
+        ],
+        "name": "test"
+      }
+    };
+
+    var requestTemplate = {
+      "id": randomString(8),
+      "method": "get",
+      "resource": "/network/ethernet"
+    };
+
+    var responseTemplate = {
+      "id": "request id",
+      "code": 200,
+      "data": {}
+    };
+
     function randomString(length) {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -333,6 +370,16 @@ limitations under the License.
         websocketclient.render.toggle('publish');
         websocketclient.render.toggle('messages');
         websocketclient.render.toggle('sub');
+
+        $('#registerButton').click(function() {
+            $('#publishPayload').val(JSON.stringify(registerTemplate, null, 4));
+        });
+        $('#requestButton').click(function() {
+            $('#publishPayload').val(JSON.stringify(requestTemplate, null, 4));
+        });
+        $('#responseButton').click(function() {
+            $('#publishPayload').val(JSON.stringify(responseTemplate, null, 4));
+        });
     });
 </script>
 </body>
