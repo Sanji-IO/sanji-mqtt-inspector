@@ -1,7 +1,7 @@
 Sanji Framework MQTT Showcase (fork from hivemq-mqtt-web-client)
 ======================
 
-Oringin: https://github.com/hivemq/hivemq-mqtt-web-client
+Source: https://github.com/hivemq/hivemq-mqtt-web-client
 ======================
 
 ## A websockets based MQTT Client for your browser.
