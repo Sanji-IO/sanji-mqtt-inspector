@@ -32,14 +32,13 @@ limitations under the License.
     <link rel="stylesheet" href="css/jquery.minicolors.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
     <link rel="stylesheet" type="text/css" href="node_modules/jsoneditor/jsoneditor-min.css">
-    <script type="text/javascript" src="node_modules/jsoneditor/jsoneditor-min.js"></script>
 </head>
 <body class="notconnected">
 
 <div id="header">
     <div>
         <a href="http://www.moxa.com"><img id="headerlogo" src="assets/logo.png"></a>
-        <span id="headertitle">Sanji Framework MQTT Showcase</span>
+        <span id="headertitle">Sanji Framework MQTT Client</span>
     </div>
 </div>
 <div id="content" class="row">
@@ -178,7 +177,7 @@ limitations under the License.
                             </div>
                             <div class="large-2 columns">
                                 <a class="small button" id="publishButton"
-                                   onclick="websocketclient.publish($('#publishTopic').val(),$('#publishPayload').val(),parseInt($('#publishQoSInput').val(),10),$('#publishRetain').is(':checked'))">Publish</a>
+                                   onclick="websocketclient.publish($('#publishTopic').val(),editor.getText(),parseInt($('#publishQoSInput').val(),10),$('#publishRetain').is(':checked'))">Publish</a>
                             </div>
                         </div>
                         <div class="row">
@@ -190,17 +189,17 @@ limitations under the License.
                             </div>
                         </div>
                         <div class="row">
-                            <div class="large-12 columns">
-                                <label>Message (JSON Editor)</label>
-                                <div id="jsoneditor" style="height: 250px;"></div>
+                            <div class="large-12 columns" style="line-height: 12px;">
+                                <label>Message (Editor)</label>
+                                <div id="jsoneditor" style="height: 300px;"></div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="large-12 columns">
-                                <a class="small button" id="toRawDataBtn">Translate to Raw data</a>
-                                <a class="small button" id="toEditorBtn">Translate to JSON editor</a>
-                            </div>
-                            <div class="large-12 columns">
-                                <label>Message (Raw Data)</label>
-                                <textarea id="publishPayload" style="height: 250px;"></textarea>
+                                <br>
+                                <label>Editor mode</label>
+                                <a class="small button" id="toTreeBtn">JSON editor mode</a>
+                                <a class="small button" id="toCodeBtn">Code editor mode</a>
                             </div>
                         </div>
                     </form>
@@ -295,9 +294,6 @@ limitations under the License.
                             </form>
                         </div>
                     </div>
-
-                    <ul id="innerEdit" class="disc">
-
                     </ul>
                 </div>
             </div>
@@ -310,11 +306,12 @@ limitations under the License.
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.3.1/lodash.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-
 <script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.2.3/js/foundation.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.2.3/js/foundation/foundation.forms.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>
+
+<script src="node_modules/jsoneditor/jsoneditor.js"></script>
 <script src="js/jquery.minicolors.min.js"></script>
 <script src="js/mqttws31.js"></script>
 <script src="js/encoder.js"></script>
@@ -324,14 +321,14 @@ limitations under the License.
 <script>
     // create the editor
     var container = document.getElementById("jsoneditor");
-    var editor = new jsoneditor.JSONEditor(container);
+    var editor = new jsoneditor.JSONEditor(container, {mode: "tree"});
 
     var registerTemplate = {
-      "id": randomString(8),
+      "id": randomInt(8),
       "method": "post",
       "resource": "/controller/registration",
       "data": {
-        "tunnel": "TempTunnelWeb_" + randomString(8),
+        "tunnel": "TempTunnelWeb_" + randomInt(8),
         "description": "This is a model without description.",
         "hook": [],
         "role": "model",
@@ -344,13 +341,13 @@ limitations under the License.
     };
 
     var requestTemplate = {
-      "id": randomString(8),
+      "id": randomInt(8),
       "method": "get",
       "resource": "/network/ethernet"
     };
 
     var responseTemplate = {
-      "id": "request id",
+      "id": 123456,
       "code": 200,
       "data": {}
     };
@@ -361,6 +358,14 @@ limitations under the License.
         for (var i = 0; i < length; i++)
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
+    }
+
+    function randomInt(length) {
+        var text = "";
+        var possible = "0123456789";
+        for (var i = 0; i < length; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return parseInt(text);
     }
 
     $(document).foundation();
@@ -383,30 +388,28 @@ limitations under the License.
         websocketclient.render.toggle('messages');
         websocketclient.render.toggle('sub');
 
+        editor.set(registerTemplate);
         $('#registerButton').click(function() {
             editor.set(registerTemplate);
-            $('#publishPayload').val(JSON.stringify(registerTemplate, null, 4));
         });
         $('#requestButton').click(function() {
             editor.set(requestTemplate);
-            $('#publishPayload').val(JSON.stringify(requestTemplate, null, 4));
         });
         $('#responseButton').click(function() {
             editor.set(responseTemplate);
-            $('#publishPayload').val(JSON.stringify(responseTemplate, null, 4));
         });
-        $('#toRawDataBtn').click(function() {
-            $('#publishPayload').val(JSON.stringify(editor.get(), null, 4));
+        $('#toCodeBtn').click(function() {
+            editor.setMode('code');
         });
-        $('#toEditorBtn').click(function() {
-            var jsonData = $('#publishPayload').val();
+        $('#toTreeBtn').click(function() {
+            var jsonData = editor.getText();
             try {
               data = JSON.parse(jsonData);
             } catch(err) {
                 alert('Invaild JSON Data');
                 return;
             }
-            editor.set(data);
+            editor.setMode('tree');
         });
     });
 </script>
