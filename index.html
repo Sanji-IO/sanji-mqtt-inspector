@@ -26,12 +26,13 @@ limitations under the License.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Sanji Framework MQTT Showcase</title>
-
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/jquery.minicolors.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/jsoneditor/jsoneditor-min.css">
+    <script type="text/javascript" src="node_modules/jsoneditor/jsoneditor-min.js"></script>
 </head>
 <body class="notconnected">
 
@@ -160,7 +161,7 @@ limitations under the License.
                     <form class="custom">
                         <div class="row">
                             <div class="large-6 columns">
-                                <label>Topic</label>
+                                <label>Tunnel</label>
                                 <input id="publishTopic" type="text" value="controller">
                             </div>
                             <div class="large-2 columns">
@@ -182,16 +183,24 @@ limitations under the License.
                         </div>
                         <div class="row">
                             <div class="large-12 columns">
-                                <label>Message</label>
-                                <textarea id="publishPayload" style="height: 250px;"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="large-12 columns">
                                 <label>Template Payload</label>
                                 <a class="small button" id="registerButton">Register</a>
                                 <a class="small button" id="requestButton">Request</a>
                                 <a class="small button" id="responseButton">Response</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <label>Message (JSON Editor)</label>
+                                <div id="jsoneditor" style="height: 250px;"></div>
+                            </div>
+                            <div class="large-12 columns">
+                                <a class="small button" id="toRawDataBtn">Translate to Raw data</a>
+                                <a class="small button" id="toEditorBtn">Translate to JSON editor</a>
+                            </div>
+                            <div class="large-12 columns">
+                                <label>Message (Raw Data)</label>
+                                <textarea id="publishPayload" style="height: 250px;"></textarea>
                             </div>
                         </div>
                     </form>
@@ -313,11 +322,14 @@ limitations under the License.
 <script src="config.js"></script>
 
 <script>
+    // create the editor
+    var container = document.getElementById("jsoneditor");
+    var editor = new jsoneditor.JSONEditor(container);
 
     var registerTemplate = {
       "id": randomString(8),
       "method": "post",
-      "resource": "/controller/register",
+      "resource": "/controller/registration",
       "data": {
         "tunnel": "TempTunnelWeb_" + randomString(8),
         "description": "This is a model without description.",
@@ -372,13 +384,29 @@ limitations under the License.
         websocketclient.render.toggle('sub');
 
         $('#registerButton').click(function() {
+            editor.set(registerTemplate);
             $('#publishPayload').val(JSON.stringify(registerTemplate, null, 4));
         });
         $('#requestButton').click(function() {
+            editor.set(requestTemplate);
             $('#publishPayload').val(JSON.stringify(requestTemplate, null, 4));
         });
         $('#responseButton').click(function() {
+            editor.set(responseTemplate);
             $('#publishPayload').val(JSON.stringify(responseTemplate, null, 4));
+        });
+        $('#toRawDataBtn').click(function() {
+            $('#publishPayload').val(JSON.stringify(editor.get(), null, 4));
+        });
+        $('#toEditorBtn').click(function() {
+            var jsonData = $('#publishPayload').val();
+            try {
+              data = JSON.parse(jsonData);
+            } catch(err) {
+                alert('Invaild JSON Data');
+                return;
+            }
+            editor.set(data);
         });
     });
 </script>
