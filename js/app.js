@@ -253,6 +253,14 @@ var websocketclient = {
 
             var largest = websocketclient.lastMessageId++;
 
+            if(message) {
+                try {
+                    message.payload = JSON.stringify(JSON.parse(message.payload), null, 2);
+                } catch (err) {
+                    ;
+                }
+            }
+
             var html = '<li class="messLine id="' + largest + '">' +
                 '   <div class="row large-12 mess' + largest + '" style="border-left: solid 10px #' + message.color + '; ">' +
                 '       <div class="large-12 columns messageText">' +
@@ -264,7 +272,7 @@ var websocketclient = {
                 html += 'Retained';
             }
             html += '           </div>' +
-                '           <div class="large-12 columns message break-words">' + Encoder.htmlEncode(message.payload) + '</div>' +
+                '           <div class="large-12 columns message break-words"><pre>' + Encoder.htmlEncode(message.payload) + '</pre></div>' +
                 '       </div>' +
                 '   </div>' +
                 '</li>';

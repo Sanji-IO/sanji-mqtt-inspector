@@ -41,7 +41,7 @@ limitations under the License.
         <span id="headertitle">Sanji Framework MQTT Client</span>
     </div>
 </div>
-<div id="content" class="row">
+<div id="content" class="row" style="max-width: 87.5em;">
 <div id="connection" class="row large-12 columns">
 
     <div class="large-8 columns conniTop">
@@ -141,7 +141,7 @@ limitations under the License.
 </div>
 <div class="empty"></div>
 <div id="publish-sub" class="row large-12 columns">
-    <div class="columns large-8">
+    <div class="columns large-6">
         <div class="large-9 columns publishTop">
             <h3>Publish</h3>
         </div>
@@ -207,49 +207,7 @@ limitations under the License.
             </div>
         </div>
         <div class="empty"></div>
-        <div class="large-9 columns messagesTop">
-            <h3>Messages</h3>
-        </div>
-
-        <div class="large-3 columns messagesArrow">
-            <a class="small bottom messagesArrow" onclick="websocketclient.render.toggle('messages');">
-                <div class="icon-arrow-chevron"></div>
-            </a>
-        </div>
-
-        <div class="large-12 columns" id="messagesMain">
-
-            <!-- Grid Example -->
-            <div class="row panel">
-                <div class="large-12 columns">
-                    <form class="custom">
-                        <!--<div class="row">-->
-                        <!--<div class="large-10 columns">-->
-                        <!--<label>Filter</label>-->
-                        <!--<input id="filterString" type="text">-->
-                        <!--</div>-->
-
-                        <!--<div class="large-2 columns">-->
-                        <!--<a class="small button" id="filterButton"-->
-                        <!--onclick="websocketclient.filter($('#filterString').val())">Filter</a>-->
-                        <!--</div>-->
-                        <!--</div>-->
-
-                    </form>
-                    <div class="row">
-                        <ul id="messEdit" class="disc">
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="columns large-4">
-
-        <div class="large-8 columns subTop">
+        <div class="large-9 columns subTop">
             <h3>Subscriptions</h3>
         </div>
 
@@ -296,6 +254,46 @@ limitations under the License.
                     </div>
                     <ul id="innerEdit" class="disc">
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns large-6">
+        <div class="large-9 columns messagesTop">
+            <h3>Messages</h3>
+        </div>
+
+        <div class="large-3 columns messagesArrow">
+            <a class="small bottom messagesArrow" onclick="websocketclient.render.toggle('messages');">
+                <div class="icon-arrow-chevron"></div>
+            </a>
+        </div>
+
+        <div class="large-12 columns" id="messagesMain">
+
+            <!-- Grid Example -->
+            <div class="row panel">
+                <div class="large-12 columns">
+                    <form class="custom">
+                        <!--<div class="row">-->
+                        <!--<div class="large-10 columns">-->
+                        <!--<label>Filter</label>-->
+                        <!--<input id="filterString" type="text">-->
+                        <!--</div>-->
+
+                        <!--<div class="large-2 columns">-->
+                        <!--<a class="small button" id="filterButton"-->
+                        <!--onclick="websocketclient.filter($('#filterString').val())">Filter</a>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                    </form>
+                    <div class="row">
+                        <ul id="messEdit" class="disc">
+
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
