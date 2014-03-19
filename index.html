@@ -280,6 +280,9 @@ limitations under the License.
             <!-- Grid Example -->
             <div class="row panel">
                 <div class="large-12 columns">
+                    <a class="small button" id="msgClearBtn">clear</a>
+                </div>
+                <div class="large-12 columns">
                     <form class="custom">
                         <!--<div class="row">-->
                         <!--<div class="large-10 columns">-->
@@ -415,6 +418,10 @@ limitations under the License.
                 return;
             }
             editor.setMode('tree');
+        });
+        $('#msgClearBtn').click(function() {
+            websocketclient.messages = [];
+            websocketclient.render.clearMessages();
         });
     });
 </script>
