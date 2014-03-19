@@ -73,11 +73,15 @@ var websocketclient = {
         websocketclient.connected = true;
         console.log("connected");
         var body = $('body').addClass('connected').removeClass('notconnected').removeClass('connectionbroke');
-
         websocketclient.render.hide('conni');
         websocketclient.render.show('publish');
         websocketclient.render.show('sub');
         websocketclient.render.show('messages');
+
+        var subAll = $('#subInput').is(':checked');
+        if(subAll===true) {
+            websocketclient.subscribe('#', 0, 0);
+        }
     },
 
     'onFail': function (message) {
