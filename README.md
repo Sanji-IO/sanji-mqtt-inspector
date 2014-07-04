@@ -1,7 +1,7 @@
 Sanji Framework MQTT Showcase (fork from hivemq-mqtt-web-client)
 ======================
 
-DEMO SITE: [Click ME!](http://192.168.27.133/mqtt-web/)
+DEMO SITE: [Click ME!](http://192.168.31.86/mqtt-web/)
 
 Source: https://github.com/hivemq/hivemq-mqtt-web-client
 ======================
