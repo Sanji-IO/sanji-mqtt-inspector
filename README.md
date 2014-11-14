@@ -9,4 +9,4 @@ sanji-mqtt-inspector
 ```
 
 ## Credits
-- [hivemq-mqtt-web-client](https://github.com/hivemq/hivemq-mqtt-web-client))
+- [hivemq-mqtt-web-client](https://github.com/hivemq/hivemq-mqtt-web-client)
