@@ -25,20 +25,20 @@ limitations under the License.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Sanji Framework MQTT Showcase</title>
+    <title>sanji-mqtt-inspector</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/jquery.minicolors.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
-    <link rel="stylesheet" type="text/css" href="node_modules/jsoneditor/jsoneditor-min.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/jsoneditor/jsoneditor.min.css">
 </head>
 <body class="notconnected">
 
 <div id="header">
     <div>
         <a href="http://www.moxa.com"><img id="headerlogo" src="assets/logo.png"></a>
-        <span id="headertitle">Sanji Framework MQTT Client</span>
+        <span id="headertitle">sanji-mqtt-inspector</span>
     </div>
 </div>
 <div id="content" class="row" style="max-width: 87.5em;">
@@ -63,7 +63,7 @@ limitations under the License.
                 <form class="custom">
                     <div class="large-4 columns">
                         <label>Host *</label>
-                        <input id="urlInput" type="text" value="192.168.31.86">
+                        <input id="urlInput" type="text" value="localhost">
                     </div>
 
                     <div class="large-2 columns">
@@ -317,9 +317,9 @@ limitations under the License.
 <script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.2.3/js/foundation/foundation.forms.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>
-<script src="node_modules/jsoneditor/jsoneditor.js"></script>
-<script src="node_modules/jsoneditor/lib/ace/ace.js"></script>
-<script src="node_modules/jsoneditor/lib/jsonlint/jsonlint.js"></script>
+<script src="node_modules/jsoneditor/jsoneditor.min.js"></script>
+<script src="node_modules/jsoneditor/asset/ace/ace.js"></script>
+<script src="node_modules/jsoneditor/asset/jsonlint/jsonlint.js"></script>
 <script src="js/jquery.minicolors.min.js"></script>
 <script src="js/mqttws31.js"></script>
 <script src="js/encoder.js"></script>
@@ -329,7 +329,7 @@ limitations under the License.
 <script>
     // create the editor
     var container = document.getElementById("jsoneditor");
-    var editor = new jsoneditor.JSONEditor(container, {mode: "tree"});
+    var editor = new JSONEditor(container, {mode: "tree"});
 
     var registerTemplate = {
       "id": randomInt(8),
