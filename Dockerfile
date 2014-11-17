@@ -1,4 +1,4 @@
-FROM dockerfile/nodejs
+FROM node:slim
 
 MAINTAINER Zack YL Shih <zackyl.shih@moxa.com>
 
