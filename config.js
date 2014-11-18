@@ -1,2 +1,2 @@
-websocketserver = 'localhost';
-websocketport = 8080;
+websocketserver = window.location.hostname;
+websocketport = window.location.port;
